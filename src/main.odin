@@ -5,6 +5,7 @@ import "core:mem"
 import "vendor:raylib"
 
 import "config"
+import "raylib_logo"
 
 
 main :: proc() {
@@ -32,6 +33,9 @@ main :: proc() {
 	raylib.InitWindow(config.ScreenWidth, config.ScreenHeight, "Mouse")
 	defer raylib.CloseWindow()
 	raylib.SetWindowMinSize(config.ScreenWidth, config.ScreenHeight)
+
+	// Show Raylib logo
+	raylib_logo.raylibLogoAnimation(fps=config.Fps)
 
 	raylib.SetTargetFPS(config.Fps)
 	//--------------------------------------------------------------------------------------
