@@ -6,6 +6,7 @@ import "vendor:raylib"
 
 import "config"
 import "raylib_logo"
+import "scenes"
 
 
 main :: proc() {
@@ -40,10 +41,24 @@ main :: proc() {
 	raylib.SetTargetFPS(config.Fps)
 	//--------------------------------------------------------------------------------------
 
+	// Free memory on exit
+	defer switch scenes.currentScene {
+		case .Title:
+			scenes.UnloadTitle()
+		case .Stage1:
+			scenes.UnloadStage1()
+	}
+
 	// Main loop
 	for !raylib.WindowShouldClose() {
 		// Update
 		//----------------------------------------------------------------------------------
+		switch scenes.currentScene {
+			case .Title:
+				scenes.UpdateTitle()
+			case .Stage1:
+				scenes.UpdateStage1()
+		}
 		//----------------------------------------------------------------------------------
 
 		// Draw
@@ -52,6 +67,13 @@ main :: proc() {
 		defer raylib.EndDrawing()
 
 		raylib.ClearBackground(raylib.RAYWHITE)
+
+		switch scenes.currentScene {
+			case .Title:
+				scenes.DrawTitle()
+			case .Stage1:
+				scenes.DrawStage1()
+		}
 		//----------------------------------------------------------------------------------
 	}
 }
